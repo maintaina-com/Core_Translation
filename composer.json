@@ -1,0 +1,53 @@
+{
+    "name": "horde/core_translation",
+    "description": "Core_Translation Horde Framework library",
+    "type": "library",
+    "homepage": "https://github.com/maintaina-com/Core_Translation",
+    "license": "LGPL-2.1",
+    "authors": [
+        {
+            "name": "Mahdi Pasche",
+            "email": "pasche@b1-systems.de",
+            "role": "developer"
+        }
+    ],
+    "time": "2021-11-12",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://horde-satis.maintaina.com"
+        }
+    ],
+    "require": {
+        "php": "^7.4 || ^8",
+        "horde/core": "^3 || dev-FRAMEWORK_6_0",
+        "horde/auth": "^3 || dev-FRAMEWORK_6_0",
+        "horde/autoloader": "^3 || dev-FRAMEWORK_6_0",
+        "horde/browser": "^3 || dev-FRAMEWORK_6_0",
+        "horde/cache": "^3 || dev-FRAMEWORK_6_0",
+        "horde/cli": "^3 || dev-FRAMEWORK_6_0",
+        "horde/compress": "^3 || dev-FRAMEWORK_6_0",
+        "horde/compress_fast": "^2 || dev-FRAMEWORK_6_0",
+        "horde/controller": "^3 || dev-FRAMEWORK_6_0",
+        "horde/data": "^3 || dev-FRAMEWORK_6_0",
+        "horde/exception": "^3 || dev-FRAMEWORK_6_0",
+        "horde/http": "^3 || dev-FRAMEWORK_6_0",
+        "horde/http_server": "^1 || dev-FRAMEWORK_6_0",
+        "horde/injector": "^3 || dev-FRAMEWORK_6_0",
+        "ext-session": "*"
+    },
+    "require-dev": {
+        "horde/test": "^3 || dev-FRAMEWORK_6_0"
+    },
+    "suggest": {},
+    "autoload": {
+        "psr-4": {
+            "Horde\\Core\\Translation\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Horde\\Core\\Translation\\Test\\": "test/"
+        }
+    }
+}

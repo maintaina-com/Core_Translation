@@ -1,0 +1,53 @@
+---
+id: Core_Translation
+name: Core_Translation
+full: Core_Translation Horde Framework library
+description: >-
+  A library that provides middlewares and scripts for providing translation apis
+  Framework.
+list: dev
+type: library
+homepage: https://github.com/maintaina-com/Core_Translation
+authors:
+  -
+    name: Mahdi Pasche
+    user: midahp
+    email: pasche@b1-systems.de
+    active: true
+    role: developer
+
+version:
+  release: 3.0.0alpha1
+  api: 3.0.0alpha1
+state:
+  release: alpha
+  api: alpha
+license:
+  identifier: LGPL-2.1
+  uri: http://www.horde.org/licenses/lgpl21
+dependencies:
+  required:
+    php: ^7.4 || ^8
+    composer:
+      horde/core: ^3
+      horde/auth: ^3
+      horde/autoloader: ^3
+      horde/browser: ^3
+      horde/cache: ^3
+      horde/cli: ^3
+      horde/compress: ^3
+      horde/compress_fast: ^2
+      horde/controller: ^3
+      horde/data: ^3
+      horde/exception: ^3
+      horde/http: ^3
+      horde/http_server: ^1
+      horde/injector: ^3
+    ext:
+      session: '*'
+  dev:
+    composer:
+      horde/test: ^3
+autoload:
+  psr-4:
+    Horde\Core\Translation\: src/
