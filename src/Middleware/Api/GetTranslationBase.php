@@ -38,6 +38,8 @@ abstract class GetTranslationBase implements MiddlewareInterface
         $route = $request->getAttribute('route');
 
         $lang = $route['languageCode'];
+        // uniform language code format. Frontend uses dash as separator
+        $lang = str_replace('-', '_', $lang);
         $domain = $route['domain'];
         $namespace = $route['namespace'];
         $currentLang = $this->registry->preferredLang();
