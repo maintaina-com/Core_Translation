@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Horde\Passwd\Middleware\Api;
+namespace Horde\Core\Translation\Middleware\Api;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -11,7 +11,6 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Horde_Registry;
-
 /**
  * Returns locale json file for a specific language and namespace.
  */

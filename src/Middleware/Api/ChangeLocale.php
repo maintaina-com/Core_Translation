@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Horde\Passwd\Middleware\Api;
+namespace Horde\Core\Translation\Middleware\Api;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
