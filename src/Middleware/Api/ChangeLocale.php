@@ -21,6 +21,8 @@ class ChangeLocale implements MiddlewareInterface
     protected StreamFactoryInterface $streamFactory;
     protected Horde_Registry $registry;
     protected $config;
+    protected array $languages;
+
 
     public function __construct(
         ResponseFactoryInterface $responseFactory,
@@ -30,16 +32,15 @@ class ChangeLocale implements MiddlewareInterface
         $this->responseFactory = $responseFactory;
         $this->streamFactory = $streamFactory;
         $this->registry = $registry;
-        // $this->config = $registry->loadConfigFile('nls.php', 'horde_nls_config', 'horde')->config['horde_nls_config'];
-        $this->languages = $registry->nlsconfig->languages;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        $languages = $this->registry->nlsconfig->languages;
         $route = $request->getAttribute('route');
 
         $lang = $route['languageCode'];
-        if (array_key_exists($lang, $this->languages)) {
+        if (array_key_exists($lang, $languages)) {
             $this->registry->setLanguageEnvironment($lang);
         } else {
             return $this->responseFactory

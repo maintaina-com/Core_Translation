@@ -42,7 +42,7 @@ jobs:
         extensions: bcmath, ctype, curl, dom, gd, gettext, iconv, imagick, json, ldap, mbstring, mysql, opcache, openssl, pcntl, pdo, posix, redis, soap, sockets, sqlite, tokenizer, xmlwriter
         ini-values: post_max_size=512M, max_execution_time=360
         coverage: xdebug
-        tools: php-cs-fixer, phpunit:${{ matrix.phpunit-versions }}, composer:v2
+        tools: php-cs-fixer, phpunit:${{ matrix.phpunit-versions }}, composer:v2, phpstan
     - name: Setup Github Token as composer credential
       run: composer config -g github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
     - name: Install horde/test dependency and other dependencies
@@ -52,3 +52,5 @@ jobs:
         COMPOSER_ROOT_VERSION=dev-FRAMEWORK_6_0 composer install
     - name: run phpunit
       run: phpunit --bootstrap test/bootstrap.php
+    - name: run phpstan
+      run: phpstan analyze src/ --level=1
