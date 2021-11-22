@@ -11,6 +11,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Horde_Registry;
+
 /**
  * Returns locale json file for a specific language and namespace.
  */
@@ -19,7 +20,7 @@ class GetLanguages implements MiddlewareInterface
     protected ResponseFactoryInterface $responseFactory;
     protected StreamFactoryInterface $streamFactory;
     protected Horde_Registry $registry;
-    protected $config;
+    protected array $languages;
 
     public function __construct(
         ResponseFactoryInterface $responseFactory,
@@ -29,12 +30,11 @@ class GetLanguages implements MiddlewareInterface
         $this->responseFactory = $responseFactory;
         $this->streamFactory = $streamFactory;
         $this->registry = $registry;
-        // $this->config = $registry->loadConfigFile('nls.php', 'horde_nls_config', 'horde')->config['horde_nls_config'];
-        $this->languages = $registry->nlsconfig->languages;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        $languages = $this->registry->nlsconfig->languages;
         $json = json_encode($this->languages);
         $body = $this->streamFactory->createStream($json);
         return $this->responseFactory
