@@ -13,7 +13,7 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Horde_Registry;
 
 /**
- * Returns locale json file for a specific language and namespace.
+ * Changes the selected locale for the current session.
  */
 class ChangeLocale implements MiddlewareInterface
 {

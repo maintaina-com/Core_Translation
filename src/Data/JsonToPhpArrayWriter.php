@@ -5,7 +5,7 @@ class JsonToPhpArrayWriter
 {
     protected const INDENT_SPACES = 4;
 
-    public function convert(string $filepath)
+    public function convert(string $filepath, string $ns)
     {
         $jsonString = file_get_contents($filepath);
         if (!$jsonString) {
@@ -15,9 +15,9 @@ class JsonToPhpArrayWriter
         if (!$data) {
             throw new Horde_Exception("$filepath does not contain valid json");
         }
-        
+
         $depth = 0;
-        $s = $this->getHeader();
+        $s = $this->getHeader($ns);
         $s .= $this->getArrayStr($data);
         $s .= $this->getFooter();
         echo $s;
@@ -44,12 +44,12 @@ class JsonToPhpArrayWriter
         return $s;
     }
 
-    protected function getHeader(string $clsName = 'GetTranslation')
+    protected function getHeader(string $ns, string $clsName = 'GetTranslation')
     {
         return <<<ENDHEADER
         <?php
         declare(strict_types=1);
-        namespace Horde\Passwd\Middleware;
+        namespace $ns;
 
         use Horde\Core\Translation\Middleware\Api\GetTranslationBase;
 
@@ -74,6 +74,4 @@ class JsonToPhpArrayWriter
 
         ENDFOOTER;
     }
-
-
 }

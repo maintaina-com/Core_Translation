@@ -13,7 +13,7 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Horde_Registry;
 
 /**
- * Returns locale json file for a specific language and namespace.
+ * Base Class for returning (nested) array of translatable strings.
  */
 abstract class GetTranslationBase implements MiddlewareInterface
 {
