@@ -20,7 +20,6 @@ class GetLanguages implements MiddlewareInterface
     protected ResponseFactoryInterface $responseFactory;
     protected StreamFactoryInterface $streamFactory;
     protected Horde_Registry $registry;
-    protected array $languages;
 
     public function __construct(
         ResponseFactoryInterface $responseFactory,
@@ -35,7 +34,7 @@ class GetLanguages implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $languages = $this->registry->nlsconfig->languages;
-        $json = json_encode($this->languages);
+        $json = json_encode($languages);
         $body = $this->streamFactory->createStream($json);
         return $this->responseFactory
             ->createResponse(200)
