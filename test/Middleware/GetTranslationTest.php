@@ -9,14 +9,14 @@
  * @license  http://www.horde.org/licenses/lgpl21 LGPL 2.1
  * @package  Core
  */
+
 namespace Horde\Core\Translation\Test\Middleware;
 
 use Horde\Test\TestCase;
-use Horde\Core\Translation\Middleware\Api\GetTranslationBase;
+use Horde\Core\Translation\GetTranslationBase;
 
-use \Horde_Session;
-use \Horde_Exception;
-
+use Horde_Session;
+use Horde_Exception;
 
 class GetTranslationTest extends Testcase
 {
@@ -24,12 +24,7 @@ class GetTranslationTest extends Testcase
 
     protected function getMiddleware()
     {
-        return new class(
-            $this->responseFactory,
-            $this->streamFactory,
-            $this->registry
-        ) extends GetTranslationBase
-        {
+        return new class($this->responseFactory, $this->streamFactory, $this->registry) extends GetTranslationBase {
             protected function getData(): array
             {
                 return ["a"=>"b"];

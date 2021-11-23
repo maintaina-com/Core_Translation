@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Horde\Core\Translation\Middleware\Api;
+namespace Horde\Core\Translation;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -13,7 +13,7 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Horde_Registry;
 
 /**
- * Returns locale json file for a specific language and namespace.
+ * Base Class for returning (nested) array of translatable strings.
  */
 abstract class GetTranslationBase implements MiddlewareInterface
 {
