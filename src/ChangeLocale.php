@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Horde\Core\Translation\Middleware\Api;
+namespace Horde\Core\Translation;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -13,13 +13,16 @@ use Psr\Http\Message\StreamFactoryInterface;
 use Horde_Registry;
 
 /**
- * Base Class for returning (nested) array of translatable strings.
+ * Changes the selected locale for the current session.
  */
-abstract class GetTranslationBase implements MiddlewareInterface
+class ChangeLocale implements MiddlewareInterface
 {
     protected ResponseFactoryInterface $responseFactory;
     protected StreamFactoryInterface $streamFactory;
     protected Horde_Registry $registry;
+    protected $config;
+    protected array $languages;
+
 
     public function __construct(
         ResponseFactoryInterface $responseFactory,
@@ -31,26 +34,20 @@ abstract class GetTranslationBase implements MiddlewareInterface
         $this->registry = $registry;
     }
 
-    abstract protected function getData(): array;
-
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        $languages = $this->registry->nlsconfig->languages;
         $route = $request->getAttribute('route');
 
         $lang = $route['languageCode'];
-        // uniform language code format. Frontend uses dash as separator
-        $lang = str_replace('-', '_', $lang);
-        $domain = $route['domain'];
-        $namespace = $route['namespace'];
-        $currentLang = $this->registry->preferredLang();
-        $this->registry->setLanguage($lang);
-        // TODO: setTextDomain
-        // $this->registry->setTextDomain($context, 'locale');
-        $json = json_encode($this->getData());
-        $this->registry->setLanguage($currentLang);
-        // TODO: revert setTextDomain
-        // $this->registry->setTextDomain($context, 'locale');
+        if (array_key_exists($lang, $languages)) {
+            $this->registry->setLanguageEnvironment($lang);
+        } else {
+            return $this->responseFactory
+            ->createResponse(400, 'Invalid language code');
+        }
 
+        $json = json_encode(['success' => true]);
         $body = $this->streamFactory->createStream($json);
         return $this->responseFactory
             ->createResponse(200)

@@ -9,6 +9,7 @@
  * @license  http://www.horde.org/licenses/lgpl21 LGPL 2.1
  * @package  Core
  */
+
 namespace Horde\Core\Translation\Test\Middleware;
 
 use Psr\Http\Server\RequestHandlerInterface;
@@ -24,9 +25,9 @@ use Horde\Http\StreamFactory;
 use Horde\Http\ResponseFactory;
 use Horde\Http\Server\RampageRequestHandler;
 
-use \Horde_Session;
-use \Horde_Registry;
-use \Horde_Exception;
+use Horde_Session;
+use Horde_Registry;
+use Horde_Exception;
 
 trait SetUpTrait
 {

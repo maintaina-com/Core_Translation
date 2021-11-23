@@ -1,5 +1,8 @@
 <?php
 
+namespace Horde\Core\Translation;
+
+use Horde_Exception;
 
 class JsonToPhpArrayWriter
 {
