@@ -21,7 +21,6 @@ class ChangeLocale implements MiddlewareInterface
     protected StreamFactoryInterface $streamFactory;
     protected Horde_Registry $registry;
     protected $config;
-    protected array $languages;
 
 
     public function __construct(
