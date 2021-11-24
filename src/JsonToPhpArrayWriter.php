@@ -8,7 +8,7 @@ class JsonToPhpArrayWriter
 {
     protected const INDENT_SPACES = 4;
 
-    public function convert(string $filepath, string $ns)
+    public function convert(string $ns, string $filepath)
     {
         $jsonString = file_get_contents($filepath);
         if (!$jsonString) {
@@ -40,7 +40,7 @@ class JsonToPhpArrayWriter
                         $s .= str_repeat(' ', $depth*$spaces) . "'$key' => _('$value'),\n";
                     }
                 }
-                $s .= str_repeat(' ', $depth*$spaces) . "],\n";
+                $s .= str_repeat(' ', ($depth-1)*$spaces) . "],\n";
             }
         };
         $rec($data);
@@ -54,7 +54,7 @@ class JsonToPhpArrayWriter
         declare(strict_types=1);
         namespace $ns;
 
-        use Horde\Core\Translation\Middleware\Api\GetTranslationBase;
+        use Horde\Core\Translation\GetTranslationBase;
 
         /**
          * Returns locale json file for a specific language and namespace.
