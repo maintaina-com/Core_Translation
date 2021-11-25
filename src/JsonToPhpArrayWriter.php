@@ -30,7 +30,8 @@ class JsonToPhpArrayWriter
     {
         $s = '';
         $spaces = self::INDENT_SPACES;
-        $rec = function ($arr, $depth=3) use (&$s, $spaces, &$rec) {
+        $initialDepth = 3;
+        $rec = function ($arr, $depth) use (&$s, $spaces, &$rec, $initialDepth) {
             if ($arr) {
                 foreach ($arr as $key => $value) {
                     if (is_array($value)) {
@@ -40,10 +41,12 @@ class JsonToPhpArrayWriter
                         $s .= str_repeat(' ', $depth*$spaces) . "'$key' => _('$value'),\n";
                     }
                 }
-                $s .= str_repeat(' ', ($depth-1)*$spaces) . "],\n";
+                if ($depth > $initialDepth) {
+                    $s .= str_repeat(' ', ($depth-1)*$spaces) . "],\n";
+                }
             }
         };
-        $rec($data);
+        $rec($data, $initialDepth);
         return $s;
     }
 

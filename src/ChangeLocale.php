@@ -39,6 +39,7 @@ class ChangeLocale implements MiddlewareInterface
         $route = $request->getAttribute('route');
 
         $lang = $route['languageCode'];
+        $lang = $this->registry->nlsconfig->aliases[$lang] ?? $lang;
         if (array_key_exists($lang, $languages)) {
             $this->registry->setLanguageEnvironment($lang);
         } else {
