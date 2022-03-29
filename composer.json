@@ -49,5 +49,6 @@
         "psr-4": {
             "Horde\\Core\\Translation\\Test\\": "test/"
         }
-    }
+    },
+    "minimum-stability": "dev"
 }
