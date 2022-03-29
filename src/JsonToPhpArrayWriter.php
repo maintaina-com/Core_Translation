@@ -2,25 +2,30 @@
 
 namespace Horde\Core\Translation;
 
-use Horde_Exception;
-
 class JsonToPhpArrayWriter
 {
     protected const INDENT_SPACES = 4;
 
-    public function convert(string $ns, string $filepath)
+    public function convert(string $phpNs, string $jsonPath)
     {
-        $jsonString = file_get_contents($filepath);
-        if (!$jsonString) {
-            throw new Horde_Exception("Could not find $filepath");
+        $jsonPath = rtrim($jsonPath, '/');
+        if (!is_dir($jsonPath)) {
+            throw new \Exception("Could not find $jsonPath");
         }
-        $data = json_decode($jsonString, true);
-        if (!$data) {
-            throw new Horde_Exception("$filepath does not contain valid json");
+        chdir($jsonPath);
+        $files = glob('*.json');
+        $data = [];
+        foreach ($files as $filename) {
+            $ns = substr($filename, 0, strlen($filename) - 5);
+            $content =  file_get_contents($filename);
+            $nsData = json_decode($content, true);
+            if (is_null($nsData)) {
+                throw new \Exception("$filename does not contain valid json");
+            }
+            $data[$ns] = $nsData;
         }
 
-        $depth = 0;
-        $s = $this->getHeader($ns);
+        $s = $this->getHeader($phpNs);
         $s .= $this->getArrayStr($data);
         $s .= $this->getFooter();
         echo $s;
@@ -35,18 +40,20 @@ class JsonToPhpArrayWriter
             if ($arr) {
                 foreach ($arr as $key => $value) {
                     if (is_array($value)) {
-                        $s .= str_repeat(' ', $depth*$spaces) . "'$key' => [\n";
-                        $rec($value, $depth+1);
+                        $s .= str_repeat(' ', $depth * $spaces) . "'$key' => [\n";
+                        $rec($value, $depth + 1);
                     } else {
-                        $s .= str_repeat(' ', $depth*$spaces) . "'$key' => _('$value'),\n";
+                        $value = str_replace("'", "\\'", $value);
+                        $s .= str_repeat(' ', $depth * $spaces) . "'$key' => _('$value'),\n";
                     }
                 }
                 if ($depth > $initialDepth) {
-                    $s .= str_repeat(' ', ($depth-1)*$spaces) . "],\n";
+                    $s .= str_repeat(' ', ($depth - 1) * $spaces) . "],\n";
                 }
             }
         };
         $rec($data, $initialDepth);
+        // $s = substr($s, 0, -3);
         return $s;
     }
 
@@ -54,7 +61,9 @@ class JsonToPhpArrayWriter
     {
         return <<<ENDHEADER
         <?php
+
         declare(strict_types=1);
+        
         namespace $ns;
 
         use Horde\Core\Translation\GetTranslationBase;

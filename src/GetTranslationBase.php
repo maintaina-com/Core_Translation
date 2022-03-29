@@ -41,13 +41,16 @@ abstract class GetTranslationBase implements MiddlewareInterface
         // uniform language code format. Frontend uses dash as separator
         $lang = str_replace('-', '_', $lang);
         $lang = $this->registry->nlsconfig->aliases[$lang] ?? $lang;
-        $domain = $route['domain'];
-        $namespace = $route['namespace'];
+        $namespace = $route['namespace'] ?? null;
         $currentLang = $this->registry->preferredLang();
         $this->registry->setLanguage($lang);
         // TODO: setTextDomain
         // $this->registry->setTextDomain($context, 'locale');
-        $json = json_encode($this->getData());
+        $data = $this->getData();
+        if ($namespace) {
+            $data = $data[$namespace] ?? $data;
+        }
+        $json = json_encode($data);
         $this->registry->setLanguage($currentLang);
         // TODO: revert setTextDomain
         // $this->registry->setTextDomain($context, 'locale');
